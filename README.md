@@ -1,3 +1,11 @@
-# Typescript Template
+# RobBot-Core
 
-Template repository for a Typescript-based Node.js project, as I've done this a few times now
+"Core" of the RobBot Discord bot.
+Handles the "boring" things such as:
+
+- Clean start-up
+- Clean shut-down
+- Error-handling
+- Logging
+- Configuration
+- Exposing functions to extend behavior\
