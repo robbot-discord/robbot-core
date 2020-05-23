@@ -1,9 +1,7 @@
 import {
   Channel,
   Collection,
-  DMChannel,
   Guild,
-  GuildChannel,
   GuildEmoji,
   GuildMember,
   Invite,
@@ -17,23 +15,28 @@ import {
   User,
   VoiceState,
   ClientEvents,
+  PartialUser,
+  PartialGuildMember,
+  PartialMessage,
+  PartialDMChannel,
+  CloseEvent,
 } from "discord.js"
 import { RateLimitInfo } from "../types"
 
+// TODO is there a better type constraint than 'void' ?
+export type EventHandlers = {
+  [K in keyof ClientEvents]: (...args: ClientEvents[K]) => void
+}
+
 // per Events section https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-channelCreate
-// TODO better type than any?
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const defaultEventHandlers: Record<keyof ClientEvents, any> = {
-  channelCreate: (channel: DMChannel | GuildChannel) => ({ channel }),
-  channelDelete: (channel: DMChannel | GuildChannel) => ({ channel }),
-  channelPinsUpdate: (channel: DMChannel | GuildChannel, time: Date) => ({
+export const defaultEventHandlers: EventHandlers = {
+  channelCreate: (channel: Channel) => ({ channel }),
+  channelDelete: (channel: Channel) => ({ channel }),
+  channelPinsUpdate: (channel: Channel, time: Date) => ({
     channel,
     time,
   }),
-  channelUpdate: (
-    oldChannel: DMChannel | GuildChannel,
-    newChannel: DMChannel | GuildChannel
-  ) => ({
+  channelUpdate: (oldChannel: Channel, newChannel: Channel) => ({
     oldChannel,
     newChannel,
   }),
@@ -42,22 +45,38 @@ export const defaultEventHandlers: Record<keyof ClientEvents, any> = {
   emojiDelete: (emoji: GuildEmoji) => ({ emoji }),
   emojiUpdate: (emoji: GuildEmoji) => ({ emoji }),
   error: (error: Error) => ({ error }),
-  guildBanAdd: (guild: Guild, user: User) => ({ guild, user }),
-  guildBanRemove: (guild: Guild, user: User) => ({ guild, user }),
+  guildBanAdd: (guild: Guild, user: User | PartialUser) => ({
+    guild,
+    user,
+  }),
+  guildBanRemove: (guild: Guild, user: User | PartialUser) => ({
+    guild,
+    user,
+  }),
   guildCreate: (guild: Guild) => ({ guild }),
   guildDelete: (guild: Guild) => ({ guild }),
   guildIntegrationsUpdate: (guild: Guild) => ({ guild }),
-  guildMemberAdd: (member: GuildMember) => ({ member }),
-  guildMemberRemove: (member: GuildMember) => ({ member }),
+  guildMemberAdd: (member: GuildMember | PartialGuildMember) => ({
+    member,
+  }),
+  guildMemberRemove: (member: GuildMember | PartialGuildMember) => ({
+    member,
+  }),
   guildMembersChunk: (
-    members: Collection<Snowflake, GuildMember>,
+    members: Collection<Snowflake, GuildMember | PartialGuildMember>,
     guild: Guild
   ) => ({ members, guild }),
-  guildMemberSpeaking: (member: GuildMember, speaking: Readonly<Speaking>) => ({
+  guildMemberSpeaking: (
+    member: GuildMember | PartialGuildMember,
+    speaking: Readonly<Speaking>
+  ) => ({
     member,
     speaking,
   }),
-  guildMemberUpdate: (oldMember: GuildMember, newMember: GuildMember) => ({
+  guildMemberUpdate: (
+    oldMember: GuildMember | PartialGuildMember,
+    newMember: GuildMember | PartialGuildMember
+  ) => ({
     oldMember,
     newMember,
   }),
@@ -70,28 +89,42 @@ export const defaultEventHandlers: Record<keyof ClientEvents, any> = {
   inviteCreate: (invite: Invite) => ({ invite }),
   inviteDelete: (invite: Invite) => ({ invite }),
   message: (message: Message) => ({ message }),
-  messageDelete: (message: Message) => ({ message }),
-  messageDeleteBulk: (messages: Collection<Snowflake, Message>) => ({
+  messageDelete: (message: Message | PartialMessage) => ({ message }),
+  messageDeleteBulk: (
+    messages: Collection<Snowflake, Message | PartialMessage>
+  ) => ({
     messages,
   }),
-  messageReactionAdd: (messageReaction: MessageReaction, user: User) => ({
+  messageReactionAdd: (
+    messageReaction: MessageReaction,
+    user: User | PartialUser
+  ) => ({
     messageReaction,
     user,
   }),
-  messageReactionRemove: (messageReaction: MessageReaction, user: User) => ({
+  messageReactionRemove: (
+    messageReaction: MessageReaction,
+    user: User | PartialUser
+  ) => ({
     messageReaction,
     user,
   }),
-  messageReactionRemoveAll: (message: Message) => message,
+  messageReactionRemoveAll: (message: Message | PartialMessage) => message,
   // TODO https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-messageReactionRemoveEmoji ?
   messageReactionRemoveEmoji: (reaction: MessageReaction) => ({
     reaction,
   }),
-  messageUpdate: (oldMessage: Message, newMessage: Message) => ({
+  messageUpdate: (
+    oldMessage: Message | PartialMessage,
+    newMessage: Message | PartialMessage
+  ) => ({
     oldMessage,
     newMessage,
   }),
-  presenceUpdate: (oldPresence: Presence | null, newPresence: Presence) => ({
+  presenceUpdate: (
+    oldPresence: Presence | undefined,
+    newPresence: Presence
+  ) => ({
     oldPresence,
     newPresence,
   }),
@@ -114,8 +147,17 @@ export const defaultEventHandlers: Record<keyof ClientEvents, any> = {
     id,
     replayedEvents,
   }),
-  typingStart: (channel: Channel, user: User) => ({ channel, user }),
-  userUpdate: (oldUser: User, newUser: User) => ({ oldUser, newUser }),
+  typingStart: (
+    channel: Channel | PartialDMChannel,
+    user: User | PartialUser
+  ) => ({
+    channel,
+    user,
+  }),
+  userUpdate: (oldUser: User | PartialUser, newUser: User | PartialUser) => ({
+    oldUser,
+    newUser,
+  }),
   voiceStateUpdate: (oldState: VoiceState, newState: VoiceState) => ({
     oldState,
     newState,

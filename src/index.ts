@@ -8,6 +8,8 @@ export const registerEventHandlers = (client: Client): void => {
   ) as unknown) as (keyof ClientEvents)[]
 
   for (const event of events) {
-    client.on(event, defaultEventHandlers[event])
+    const handler = defaultEventHandlers[event]
+    // TODO is there a type-safe way to do this?
+    client.on(event, handler as never)
   }
 }
