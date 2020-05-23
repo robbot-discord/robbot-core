@@ -1,6 +1,10 @@
 {
   "author": "Robert Smieja",
-  "description": "Template repository for a Typescript-based Node.js project",
+  "dependencies": {
+    "@types/ws": "^7.2.4",
+    "discord.js": "^12.2.0"
+  },
+  "description": "Core of RobBot, a Discord bot",
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
@@ -39,27 +43,27 @@
   ],
   "license": "MIT",
   "lint-staged": {
-    "src/*.{js,ts,jsx,tsx}": [
-      "eslint --fix"
-    ],
     "*.{js,ts,jsx,tsx,json,md}": [
       "prettier --write"
+    ],
+    "src/*.{js,ts,jsx,tsx}": [
+      "eslint --fix"
     ]
   },
   "main": "dist/index.js",
-  "name": "typescript-template",
+  "name": "robbot-core",
   "private": true,
   "scripts": {
     "build": "npm-run-all --parallel build:js lint",
     "build:js": "tsc",
     "clean": "rimraf dist/",
     "lint": "eslint ./src/**/*",
-    "lint:staged": "lint-staged",
     "lint:fix": "eslint --fix ./src/**/*",
-    "prettier": "prettier --write '*.{js,ts,jsx,tsx,json,md}'",
+    "lint:staged": "lint-staged",
     "prepare": "npm-run-all clean build",
     "prepublishOnly": "npm-run-all --parallel test lint",
     "prestart": "npm run-script build",
+    "prettier": "prettier --write '*.{js,ts,jsx,tsx,json,md}'",
     "start": "node dist/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
