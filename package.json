@@ -55,7 +55,7 @@
     ]
   },
   "main": "dist/index.js",
-  "name": "@robbot-discord/robbot-core",
+  "name": "@robbot/robbot-core",
   "private": false,
   "repository": "https://github.com/robbot-discord/robbot-core",
   "scripts": {
