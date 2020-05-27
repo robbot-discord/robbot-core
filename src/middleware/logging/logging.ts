@@ -1,4 +1,4 @@
-import { LoggingMiddleware, RobBotLoggerDispatch } from "../types"
+import { LoggingMiddleware } from "../types"
 import { RobBotConfiguration } from "../../configuration/types"
 import { LogLevelFilterConfiguration } from "./types"
 import { LogLevel, RobBotLogger } from "../../logging/types"
@@ -6,7 +6,7 @@ import { LogLevel, RobBotLogger } from "../../logging/types"
 export const createLoggingLevelFilter = (
   configuration: RobBotConfiguration & LogLevelFilterConfiguration
 ): LoggingMiddleware => {
-  return (logger: RobBotLogger, next: RobBotLoggerDispatch): RobBotLogger => {
+  return (logger: RobBotLogger): RobBotLogger => {
     const { logLevel } = configuration
 
     const { ERROR, WARN, INFO, DEBUG, TRACE } = LogLevel
@@ -22,6 +22,6 @@ export const createLoggingLevelFilter = (
       trace: logLevel >= TRACE ? (message) => logger.trace(message) : noOp,
     }
 
-    return next(wrappedLogger)
+    return wrappedLogger
   }
 }

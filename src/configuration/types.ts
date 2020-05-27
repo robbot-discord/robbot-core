@@ -1,11 +1,20 @@
 import { LoggingMiddleware } from "../middleware/types"
+import { ClientOptions } from "discord.js"
+import { RobBotLogger } from "../logging/types"
+import { EventHandlers } from "../handlers"
 
 export type AnyFunction = (...args: unknown[]) => void
 
 export interface RobBotConfiguration {
-  middleware: {
-    messages: LoggingMiddleware[]
-    logging: AnyFunction
-    storage: AnyFunction
+  discord: {
+    apiToken: string
+    clientOptions?: ClientOptions
   }
+  eventHandlers: EventHandlers
+  middleware?: {
+    messages?: AnyFunction
+    logging?: LoggingMiddleware[]
+    storage?: AnyFunction
+  }
+  logger: RobBotLogger
 }
