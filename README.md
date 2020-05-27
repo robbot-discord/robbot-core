@@ -8,4 +8,4 @@ Handles the "boring" things such as:
 - Error-handling
 - Logging
 - Configuration
-- Exposing functions to extend behavior\
+- Exposing functions to extend behavior
