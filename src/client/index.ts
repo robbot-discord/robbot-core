@@ -51,9 +51,12 @@ export class RobBotClient extends Client {
     }
   }
 
-  run = (client: RobBotClient = this): void => {
+  run = (
+    client: RobBotClient = this,
+    discordApiToken: string = this.configuration.discord.apiToken
+  ): void => {
     try {
-      client.run()
+      client.login(discordApiToken)
     } catch (error) {
       client.configuration.logger.error(
         `Unexpected error, client crashed: ${error}`
