@@ -34,6 +34,8 @@ export default createClient
 
 export { createDefaultConfiguration } from "./configuration"
 
+export * as Middleware from "./logging"
+
 export * from "./configuration/types"
 export * from "./logging/types"
 export * from "./middleware/types"
