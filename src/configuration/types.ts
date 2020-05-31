@@ -6,15 +6,19 @@ import { EventHandlers } from "../handlers"
 export type AnyFunction = (...args: unknown[]) => void
 
 export interface RobBotConfiguration {
-  discord: {
-    apiToken: string
-    clientOptions?: ClientOptions
-  }
+  discord: RobBotDiscordConfiguration
   eventHandlers: EventHandlers
-  middleware?: {
-    messages?: AnyFunction
-    logging?: LoggingMiddleware[]
-    storage?: AnyFunction
-  }
+  middleware?: RobBotMiddlewareConfiguration
   logger: RobBotLogger
+}
+
+export interface RobBotDiscordConfiguration {
+  apiToken: string
+  clientOptions?: ClientOptions
+}
+
+export interface RobBotMiddlewareConfiguration {
+  messages?: AnyFunction
+  logging?: LoggingMiddleware[]
+  storage?: AnyFunction
 }
