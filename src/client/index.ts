@@ -51,16 +51,21 @@ export class RobBotClient extends Client {
     }
   }
 
-  run = (
+  run = async (
     client: RobBotClient = this,
     discordApiToken: string = this.configuration.discord.apiToken
-  ): void => {
-    try {
-      client.login(discordApiToken)
-    } catch (error) {
-      client.configuration.logger.error(
-        `Unexpected error, client crashed: ${error}`
-      )
-    }
+  ): Promise<void> => {
+    await client
+      .login(discordApiToken)
+      .then(() => {
+        return
+      })
+      .catch((error) => {
+        client.configuration.logger.error(
+          `Unexpected error, client crashed: ${error}`
+        )
+
+        return
+      })
   }
 }
