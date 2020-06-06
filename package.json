@@ -72,7 +72,7 @@
     "lint:fix": "eslint --fix ./src/**/*",
     "lint:staged": "lint-staged",
     "prepublishOnly": "npm-run-all --serial clean build --parallel test lint",
-    "prestart": "npm run-script build",
+    "prestart": "npm run-script lint",
     "prettier": "prettier --write \"./**/*.{js,ts,jsx,tsx,json,md}\"",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch --passWithNoTests",
