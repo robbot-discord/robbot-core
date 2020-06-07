@@ -7,3 +7,5 @@ export const ConsoleLogger: Logger = {
   info: (message) => console.info(message),
   trace: (message) => console.log(message),
 }
+
+export * from "./types"

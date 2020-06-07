@@ -27,15 +27,17 @@ export const runClient = (client: RobBotClient): void => {
   })
 
   // block until finished
-  while (!finishedRunning) {}
+  while (!finishedRunning) {
+    // intentionally empty - do nothing
+  }
 }
 
 export default createClient
 
 export { createDefaultConfiguration } from "./configuration"
 
-export * as Middleware from "./logging"
-
-export * from "./configuration/types"
-export * from "./logging/types"
-export * from "./middleware/types"
+export * from "./client"
+export * from "./configuration"
+export * from "./logging"
+export * from "./middleware"
+export * from "./storage"

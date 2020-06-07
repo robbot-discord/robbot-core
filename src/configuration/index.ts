@@ -15,3 +15,5 @@ export const createDefaultConfiguration = (
     logger,
   }
 }
+
+export * from "./types"
