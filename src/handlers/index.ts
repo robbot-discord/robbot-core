@@ -22,14 +22,14 @@ import {
   CloseEvent,
 } from "discord.js"
 import { RateLimitInfo } from "../types"
-import { RobBotLogger } from "../logging/types"
+import { Logger } from "../logging/types"
 
 // TODO is there a better type constraint than 'void' ?
 export type EventHandlers = {
   [K in keyof ClientEvents]: (...args: ClientEvents[K]) => void
 }
 
-export const createDefaultHandlers = (logger: RobBotLogger): EventHandlers => {
+export const createDefaultHandlers = (logger: Logger): EventHandlers => {
   // per Events section https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-channelCreate
   const defaultEventHandlers: EventHandlers = {
     channelCreate: (channel: Channel) => {

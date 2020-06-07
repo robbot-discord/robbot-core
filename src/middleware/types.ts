@@ -1,4 +1,14 @@
-import { RobBotLogger } from "../logging/types"
+import { Logger } from "../logging/types"
+import { EventHandlers } from "../handlers"
+import { StorageHandler } from "../storage/types"
 export interface LoggingMiddleware {
-  (logger: RobBotLogger): RobBotLogger
+  (logger: Logger): Logger
+}
+
+export interface EventHandlerMiddleware {
+  (eventHandlers: EventHandlers): EventHandlers
+}
+
+export interface StorageMiddleware {
+  (storage: StorageHandler): StorageHandler
 }

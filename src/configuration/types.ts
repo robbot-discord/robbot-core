@@ -1,6 +1,6 @@
-import { LoggingMiddleware } from "../middleware/types"
+import { LoggingMiddleware, EventHandlerMiddleware } from "../middleware/types"
 import { ClientOptions } from "discord.js"
-import { RobBotLogger } from "../logging/types"
+import { Logger } from "../logging/types"
 import { EventHandlers } from "../handlers"
 
 export type AnyFunction = (...args: unknown[]) => void
@@ -9,7 +9,7 @@ export interface RobBotConfiguration {
   discord: RobBotDiscordConfiguration
   eventHandlers: EventHandlers
   middleware?: RobBotMiddlewareConfiguration
-  logger: RobBotLogger
+  logger: Logger
 }
 
 export interface RobBotDiscordConfiguration {
@@ -18,7 +18,7 @@ export interface RobBotDiscordConfiguration {
 }
 
 export interface RobBotMiddlewareConfiguration {
-  messages?: AnyFunction
-  logging?: LoggingMiddleware[]
-  storage?: AnyFunction
+  eventHandlerMiddleware?: EventHandlerMiddleware[]
+  loggingMiddleware?: LoggingMiddleware[]
+  storageMiddleware?: AnyFunction[]
 }

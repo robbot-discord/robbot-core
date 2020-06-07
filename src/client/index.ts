@@ -1,8 +1,9 @@
 import { Client, ClientEvents } from "discord.js"
 import { RobBotConfiguration } from "../configuration/types"
-import { RobBotLogger } from "../logging/types"
+import { Logger } from "../logging/types"
 import { produce } from "immer"
 import R from "ramda"
+import { EventHandlers } from "../handlers"
 
 export class RobBotClient extends Client {
   configuration: RobBotConfiguration
@@ -20,18 +21,30 @@ export class RobBotClient extends Client {
 
   applyMiddleware = (
     client: RobBotClient = this,
-    { logger, middleware } = this.configuration
+    { eventHandlers, logger, middleware } = this.configuration
   ): void => {
     if (middleware) {
-      const { logging } = middleware
+      const {
+        eventHandlerMiddleware,
+        loggingMiddleware,
+        storageMiddleware,
+      } = middleware
 
       client.configuration = produce(client.configuration, (draft) => {
+        draft.eventHandlers =
+          eventHandlerMiddleware?.reduce(
+            (eventHandlers, currentMiddleware): EventHandlers =>
+              currentMiddleware(eventHandlers),
+            eventHandlers
+          ) ?? eventHandlers
+
         draft.logger =
-          logging?.reduce(
-            (logger, currentMiddleware): RobBotLogger =>
-              currentMiddleware(logger),
+          loggingMiddleware?.reduce(
+            (logger, currentMiddleware): Logger => currentMiddleware(logger),
             logger
           ) ?? logger
+
+        // TODO storage
       })
     }
   }

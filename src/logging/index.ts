@@ -1,6 +1,6 @@
-import { RobBotLogger } from "./types"
+import { Logger } from "./types"
 
-export const ConsoleLogger: RobBotLogger = {
+export const ConsoleLogger: Logger = {
   debug: (message) => console.debug(message),
   error: (message) => console.error(message),
   warn: (message) => console.warn(message),

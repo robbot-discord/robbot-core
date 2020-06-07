@@ -15,4 +15,4 @@ export enum LogLevel {
   TRACE = "trace",
 }
 
-export type RobBotLogger = Record<LogLevel, LogHandler>
+export type Logger = Record<LogLevel, LogHandler>
