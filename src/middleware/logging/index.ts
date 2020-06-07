@@ -1,10 +1,9 @@
 import { LoggingMiddleware } from "../types"
-import { RobBotConfiguration } from "../../configuration/types"
 import { LogLevelFilterConfiguration } from "./types"
 import { LogLevel, Logger } from "../../logging/types"
 
 export const createLoggingLevelFilter = (
-  configuration: RobBotConfiguration & LogLevelFilterConfiguration
+  configuration: LogLevelFilterConfiguration
 ): LoggingMiddleware => {
   return (logger: Logger): Logger => {
     const { logLevel } = configuration
