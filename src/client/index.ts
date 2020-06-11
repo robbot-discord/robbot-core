@@ -21,7 +21,7 @@ export class RobBotClient extends Client {
 
   applyMiddleware = (
     client: RobBotClient = this,
-    { eventHandlers, logger, middleware } = this.configuration
+    { eventHandlers, logger, middleware, storage } = this.configuration
   ): void => {
     if (middleware) {
       const {
@@ -33,18 +33,23 @@ export class RobBotClient extends Client {
       client.configuration = produce(client.configuration, (draft) => {
         draft.eventHandlers =
           eventHandlerMiddleware?.reduce(
-            (eventHandlers, currentMiddleware): EventHandlers =>
-              currentMiddleware(eventHandlers),
+            (newEventHandlers, currentMiddleware): EventHandlers =>
+              currentMiddleware(newEventHandlers),
             eventHandlers
           ) ?? eventHandlers
 
         draft.logger =
           loggingMiddleware?.reduce(
-            (logger, currentMiddleware): Logger => currentMiddleware(logger),
+            (newLogger, currentMiddleware): Logger =>
+              currentMiddleware(newLogger),
             logger
           ) ?? logger
 
-        // TODO storage
+        draft.storage =
+          storageMiddleware?.reduce(
+            (newStorage, currentMiddleware) => currentMiddleware(newStorage),
+            storage
+          ) ?? storage
       })
     }
   }

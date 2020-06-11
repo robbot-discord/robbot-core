@@ -4,7 +4,7 @@ export interface ObjectWithId {
   id: id
 }
 
-export interface StorageHandler {
-  store<T extends ObjectWithId>(objectToStore: T): T
-  retrieve<T extends ObjectWithId>(id: id): T
+export interface StorageHandler<T extends ObjectWithId = ObjectWithId> {
+  store(objectToStore: T): T
+  retrieve(id: id): T
 }

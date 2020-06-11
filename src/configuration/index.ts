@@ -13,6 +13,14 @@ export const createDefaultConfiguration = (
     },
     eventHandlers: createDefaultHandlers(logger),
     logger,
+    storage: {
+      store: (objectToStore) => {
+        return objectToStore
+      },
+      retrieve: (id) => {
+        return { id }
+      },
+    },
   }
 }
 
