@@ -10,7 +10,6 @@ export class RobBotClient extends Client {
 
   constructor(configuration: RobBotConfiguration) {
     super(configuration.discord.clientOptions)
-
     this.configuration = R.clone(configuration)
 
     // event handlers last, in case middleware applies to them
@@ -21,7 +20,8 @@ export class RobBotClient extends Client {
 
   applyMiddleware = (
     client: RobBotClient = this,
-    { eventHandlers, logger, middleware, storage } = this.configuration
+    { eventHandlers: handlersOrFunc, logger, middleware, storage } = this
+      .configuration
   ): void => {
     if (middleware) {
       const {
@@ -29,6 +29,11 @@ export class RobBotClient extends Client {
         loggingMiddleware,
         storageMiddleware,
       } = middleware
+
+      const eventHandlers =
+        typeof handlersOrFunc === "function"
+          ? handlersOrFunc(this)
+          : handlersOrFunc
 
       client.configuration = produce(client.configuration, (draft) => {
         draft.eventHandlers =
@@ -55,7 +60,11 @@ export class RobBotClient extends Client {
   }
 
   registerEventHandlers = (client: RobBotClient = this): void => {
-    const eventHandlers = client.configuration.eventHandlers
+    const givenEventHandlers = client.configuration.eventHandlers
+    const eventHandlers =
+      typeof givenEventHandlers === "function"
+        ? givenEventHandlers(this)
+        : givenEventHandlers
 
     // TODO is there a type-safe way to do this?
     const events = (Object.keys(

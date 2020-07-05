@@ -7,12 +7,13 @@ import { ClientOptions } from "discord.js"
 import { Logger } from "../logging/types"
 import { EventHandlers } from "../handlers"
 import { StorageHandler } from "../storage"
+import { RobBotClient } from "../client"
 
 export type AnyFunction = (...args: unknown[]) => void
 
 export interface RobBotConfiguration {
   discord: RobBotDiscordConfiguration
-  eventHandlers: EventHandlers
+  eventHandlers: EventHandlers | ((client: RobBotClient) => EventHandlers)
   middleware?: RobBotMiddlewareConfiguration
   logger: Logger
   storage: StorageHandler

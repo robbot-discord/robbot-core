@@ -11,7 +11,7 @@ export const createDefaultConfiguration = (
     discord: {
       apiToken: discordApiToken,
     },
-    eventHandlers: createDefaultHandlers(logger),
+    eventHandlers: (client) => createDefaultHandlers(client, logger),
     logger,
     storage: {
       store: (objectToStore) => {
