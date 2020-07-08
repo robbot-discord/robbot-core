@@ -219,7 +219,11 @@ export const createDefaultHandlers = (
       oldPresence: Presence | undefined,
       newPresence: Presence
     ) => {
-      logger.debug(`Presence updated from <${oldPresence}> to <${newPresence}>`)
+      logger.debug(
+        `Presence updated from <${JSON.stringify(
+          oldPresence
+        )}> to <${JSON.stringify(newPresence)}>`
+      )
 
       return { oldPresence, newPresence }
     },
