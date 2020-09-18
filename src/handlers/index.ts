@@ -332,3 +332,5 @@ export const createDefaultHandlers = (
 
   return defaultEventHandlers
 }
+
+export * from "./types"
