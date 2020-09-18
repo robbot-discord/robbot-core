@@ -14,7 +14,6 @@ import {
   TextChannel,
   User,
   VoiceState,
-  ClientEvents,
   PartialUser,
   PartialGuildMember,
   PartialMessage,
@@ -24,11 +23,7 @@ import {
 import { RateLimitInfo } from "../types"
 import { Logger } from "../logging/types"
 import { RobBotClient } from "../client"
-
-// TODO is there a better type constraint than 'void' ?
-export type EventHandlers = {
-  [K in keyof ClientEvents]: (...args: ClientEvents[K]) => void
-}
+import { EventHandlers } from "./types"
 
 export const createDefaultHandlers = (
   client: RobBotClient,

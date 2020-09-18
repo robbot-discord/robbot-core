@@ -38,6 +38,7 @@ export { createDefaultConfiguration } from "./configuration"
 
 export * from "./client"
 export * from "./configuration"
+export * from "./handlers"
 export * from "./logging"
 export * from "./middleware"
 export * from "./storage"

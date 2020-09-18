@@ -3,7 +3,7 @@ import { RobBotConfiguration } from "../configuration/types"
 import { Logger } from "../logging/types"
 import { produce } from "immer"
 import R from "ramda"
-import { EventHandlers } from "../handlers"
+import { EventHandlers } from "../handlers/types"
 
 export class RobBotClient extends Client {
   configuration: RobBotConfiguration

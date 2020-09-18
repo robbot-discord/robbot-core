@@ -1,6 +1,7 @@
 import { RobBotConfiguration } from "./types"
 import { ConsoleLogger } from "../logging"
 import { createDefaultHandlers } from "../handlers"
+import { RobBotClient } from "../client"
 
 export const createDefaultConfiguration = (
   discordApiToken: string
@@ -11,7 +12,8 @@ export const createDefaultConfiguration = (
     discord: {
       apiToken: discordApiToken,
     },
-    eventHandlers: (client) => createDefaultHandlers(client, logger),
+    eventHandlers: (client: RobBotClient) =>
+      createDefaultHandlers(client, logger),
     logger,
     storage: {
       store: (objectToStore) => {

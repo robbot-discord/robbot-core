@@ -5,7 +5,7 @@ import {
 } from "../middleware/types"
 import { ClientOptions } from "discord.js"
 import { Logger } from "../logging/types"
-import { EventHandlers } from "../handlers"
+import { EventHandlers } from "../handlers/types"
 import { StorageHandler } from "../storage"
 import { RobBotClient } from "../client"
 
