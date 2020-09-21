@@ -6,6 +6,6 @@ export type EventHandlers = {
   [K in keyof ClientEvents]: (...args: ClientEvents[K]) => void
 }
 
-export interface EventCreator {
+export interface EventHandlersCreator {
   (client: RobBotClient): EventHandlers
 }

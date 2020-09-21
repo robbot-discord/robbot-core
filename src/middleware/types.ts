@@ -1,5 +1,5 @@
 import { Logger } from "../logging/types"
-import { EventCreator, EventHandlers } from "../handlers/types"
+import { EventHandlersCreator, EventHandlers } from "../handlers/types"
 import { StorageHandler } from "../storage/types"
 
 export interface LoggingMiddleware {
@@ -8,7 +8,7 @@ export interface LoggingMiddleware {
 
 export interface EventHandlerMiddleware {
   (eventHandlers: EventHandlers): EventHandlers
-  (eventCreator: EventCreator): EventCreator
+  (eventCreator: EventHandlersCreator): EventHandlersCreator
 }
 
 export interface StorageMiddleware {

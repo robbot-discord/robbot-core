@@ -5,15 +5,14 @@ import {
 } from "../middleware/types"
 import { ClientOptions } from "discord.js"
 import { Logger } from "../logging/types"
-import { EventHandlers } from "../handlers/types"
+import { EventHandlersCreator, EventHandlers } from "../handlers/types"
 import { StorageHandler } from "../storage"
-import { RobBotClient } from "../client"
 
 export type AnyFunction = (...args: unknown[]) => void
 
 export interface RobBotConfiguration {
   discord: RobBotDiscordConfiguration
-  eventHandlers: EventHandlers | ((client: RobBotClient) => EventHandlers)
+  eventHandlers: EventHandlers | EventHandlersCreator
   middleware?: RobBotMiddlewareConfiguration
   logger: Logger
   storage: StorageHandler
