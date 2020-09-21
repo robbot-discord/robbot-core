@@ -73,8 +73,17 @@ export class RobBotClient extends Client {
 
     for (const event of events) {
       const handler = eventHandlers[event]
-      // TODO is there a type-safe way to do this?
-      client.on(event, handler as never)
+      client.on(event, (...args) => {
+        try {
+          handler(...args)
+        } catch (error) {
+          const logger = client.configuration.logger
+
+          logger.error(
+            `Uncaught error in event handler! Event: <${event}>, error: <${error}>`
+          )
+        }
+      })
     }
   }
 
