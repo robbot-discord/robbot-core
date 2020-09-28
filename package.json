@@ -79,5 +79,5 @@
     "test:watch": "jest --watch --passWithNoTests",
     "version": "npm run lint:fix && git add -A src"
   },
-  "version": "0.0.12"
+  "version": "0.0.13"
 }
