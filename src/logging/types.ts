@@ -1,3 +1,5 @@
+import { RobBotClient } from "../client"
+
 export type LogMessage = string | Error
 
 export type LogHandler = (message: LogMessage) => void
@@ -25,3 +27,7 @@ export const LogLevelToNumber: Record<LogLevel, number> = {
 }
 
 export type Logger = Record<LogLevel, LogHandler>
+
+export interface LoggerCreator {
+  (client: RobBotClient): Logger
+}

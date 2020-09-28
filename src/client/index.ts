@@ -1,9 +1,9 @@
 import { Client, ClientEvents } from "discord.js"
-import { RobBotConfiguration } from "../configuration/types"
-import { Logger } from "../logging/types"
 import { produce } from "immer"
 import R from "ramda"
-import { EventHandlers } from "../handlers/types"
+import { StorageHandlerCreator } from ".."
+import { RobBotConfiguration } from "../configuration/types"
+import { LoggerCreator } from "../logging/types"
 
 export class RobBotClient extends Client {
   configuration: RobBotConfiguration
@@ -30,31 +30,41 @@ export class RobBotClient extends Client {
         storageMiddleware,
       } = middleware
 
-      const eventHandlers =
-        typeof handlersOrFunc === "function"
-          ? handlersOrFunc(this)
+      const eventHandlerCreator =
+        typeof handlersOrFunc === "object"
+          ? () => handlersOrFunc
           : handlersOrFunc
 
       client.configuration = produce(client.configuration, (draft) => {
-        draft.eventHandlers =
+        const reducedEventHandlerMiddleware =
           eventHandlerMiddleware?.reduce(
-            (newEventHandlers, currentMiddleware): EventHandlers =>
-              currentMiddleware(newEventHandlers),
-            eventHandlers
-          ) ?? eventHandlers
+            (previousCreator, currentMiddleware) => {
+              return currentMiddleware(previousCreator)
+            },
+            eventHandlerCreator
+          ) ?? eventHandlerCreator
 
-        draft.logger =
+        draft.eventHandlers = reducedEventHandlerMiddleware(client)
+
+        const defaultLoggerCreator: LoggerCreator = () => logger
+        const reducedLoggingMiddleware =
           loggingMiddleware?.reduce(
-            (newLogger, currentMiddleware): Logger =>
+            (newLogger, currentMiddleware): LoggerCreator =>
               currentMiddleware(newLogger),
-            logger
-          ) ?? logger
+            defaultLoggerCreator
+          ) ?? defaultLoggerCreator
 
-        draft.storage =
+        draft.logger = reducedLoggingMiddleware(client)
+
+        const defaultStorageCreator: StorageHandlerCreator = () => storage
+        const reducedStorageMiddleware =
           storageMiddleware?.reduce(
-            (newStorage, currentMiddleware) => currentMiddleware(newStorage),
-            storage
-          ) ?? storage
+            (newStorage, currentMiddleware): StorageHandlerCreator =>
+              currentMiddleware(newStorage),
+            defaultStorageCreator
+          ) ?? defaultStorageCreator
+
+        draft.storage = reducedStorageMiddleware(client)
       })
     }
   }

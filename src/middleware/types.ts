@@ -1,16 +1,15 @@
-import { Logger } from "../logging/types"
-import { EventHandlersCreator, EventHandlers } from "../handlers/types"
-import { StorageHandler } from "../storage/types"
+import { EventHandlersCreator } from "../handlers/types"
+import { StorageHandlerCreator } from "../storage/types"
+import { LoggerCreator } from "../logging"
 
 export interface LoggingMiddleware {
-  (logger: Logger): Logger
+  (loggerCreator: LoggerCreator): LoggerCreator
 }
 
 export interface EventHandlerMiddleware {
-  (eventHandlers: EventHandlers): EventHandlers
   (eventCreator: EventHandlersCreator): EventHandlersCreator
 }
 
 export interface StorageMiddleware {
-  (storage: StorageHandler): StorageHandler
+  (storageCreator: StorageHandlerCreator): StorageHandlerCreator
 }
