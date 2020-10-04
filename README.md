@@ -1,3 +1,6 @@
+# Deprecated
+Merged into https://github.com/robbot-discord/robbot
+
 # RobBot-Core
 
 ![NPM Version](https://img.shields.io/npm/v/@robbot/robbot-core)
